@@ -5,27 +5,158 @@
   home.homeDirectory = "/home/haschwalth";
   home.stateVersion = "24.05";
 
+  # User packages
+  home.packages = with pkgs; [
+    bat
+    fzf
+    eza  # Modern ls replacement
+  ];
+
+  # Bash shell configuration
   programs.bash = {
     enable = true;
+    
     shellAliases = {
+      # NixOS specific
       btw = "echo i use nixos btw";
       nrs = "sudo nixos-rebuild switch";
+      nrt = "sudo nixos-rebuild test";
+      
+      # Enhanced ls commands
+      ll = "eza -lah --icons";
+      la = "eza -A --icons";
+      l = "eza --icons";
+      lt = "eza --tree --level=2 --icons";
+      
+      # Git shortcuts
+      gs = "git status";
+      ga = "git add";
+      gc = "git commit";
+      gp = "git push";
+      gl = "git log --oneline --graph --decorate";
+      gd = "git diff";
+      
+      # Better alternatives
+      cat = "bat";
+      top = "btop";
+      
+      # Utility aliases
+      df = "df -h";
+      du = "du -h";
+      free = "free -h";
     };
 
     initExtra = ''
+      # Custom prompt
       export PS1='\[\e[2m\]󰭕\[\e[0;38;5;76m\]\u\[\e[32m\]@\[\e[38;5;31m\]\W\[\e[0m\] \\$ '
+      
+      # Useful functions
+      mkcd() {
+        mkdir -p "$1" && cd "$1"
+      }
+      
+      extract() {
+        if [ -f $1 ] ; then
+          case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)           echo "'$1' cannot be extracted" ;;
+          esac
+        else
+          echo "'$1' is not a valid file"
+        fi
+      }
+      
+      # Better history
+      export HISTSIZE=10000
+
+      export HISTFILESIZE=20000
+      export HISTCONTROL=ignoreboth:erasedups
+      shopt -s histappend
+      
+      # Enable fzf if available
+      if command -v fzf-share >/dev/null 2>&1; then
+        source "$(fzf-share)/key-bindings.bash"
+        source "$(fzf-share)/completion.bash"
+      fi
     '';
   };
 
+  # Git configuration
+  programs.git = {
+    enable = true;
+    userName = "haschwalth";
+    userEmail = "srivatsapoojary@gmail.com";  # CHANGE THIS
+    
+
+    extraConfig = {
+      init.defaultBranch = "main";
+      pull.rebase = false;
+      core.editor = "nvim";
+      
+      # Useful aliases
+      alias = {
+        st = "status";
+        co = "checkout";
+        br = "branch";
+        ci = "commit";
+        unstage = "reset HEAD --";
+        last = "log -1 HEAD";
+        visual = "log --graph --oneline --decorate --all";
+      };
+    };
+  };
+
+  # Bat configuration
   home.file.".config/bat/config".text = ''
     --theme="Nord"
     --style="numbers,changes,grid"
     --paging=auto
   '';
 
+  # Neovim configuration (symlinked)
   home.file.".config/nvim".source = /home/haschwalth/dot_files/nvim;
-
-  home.packages = with pkgs; [
-    bat
-  ];
+  
+  # Tmux configuration
+  programs.tmux = {
+    enable = true;
+    terminal = "screen-256color";
+    keyMode = "vi";
+    customPaneNavigationAndResize = true;
+    escapeTime = 0;
+    
+    extraConfig = ''
+      # Enable mouse support
+      set -g mouse on
+      
+      # Start windows and panes at 1, not 0
+      set -g base-index 1
+      setw -g pane-base-index 1
+      
+      # Renumber windows when one is closed
+      set -g renumber-windows on
+      
+      # Status bar
+      set -g status-style 'bg=#333333 fg=#5eacd3'
+    '';
+  };
+  
+  # SSH key management (optional - uncomment and configure)
+  # programs.ssh = {
+  #   enable = true;
+  #   matchBlocks = {
+  #     "github.com" = {
+  #       identityFile = "~/.ssh/id_ed25519";
+  #     };
+  #   };
+  # };
 }
