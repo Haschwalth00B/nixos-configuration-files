@@ -4,10 +4,10 @@
   # Samba file sharing
   services.samba = {
     enable = true;
-    securityType = "user";
     openFirewall = true;
     settings = {
       global = {
+      	security = "user";
         workgroup = "WORKGROUP";
         "server string" = "Wandenreich";
         "log file" = "/var/log/samba/log.%m";

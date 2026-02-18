@@ -4,6 +4,7 @@
   users.users.haschwalth = {
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" ];
+    shell = pkgs.zsh;
     
     # User-specific packages
     packages = with pkgs; [
@@ -12,7 +13,6 @@
       curl
       wget
       nodejs_24
-      gemini-cli
     ];
   };
 }

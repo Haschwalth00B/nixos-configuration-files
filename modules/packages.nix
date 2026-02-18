@@ -23,12 +23,14 @@
     pfetch-rs
     ripgrep
     tree
+    sl
     
     # === DEVELOPMENT TOOLS ===
     git
     gcc
     pciutils
     lshw
+    gnumake
     
     # === PROGRAMMING LANGUAGES ===
     go
@@ -53,6 +55,15 @@
     
     # === MEDIA TOOLS ===
     exiftool
+
+    # === ZSH ===
+    # Nerd Fonts for Powerlevel10k
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.meslo-lg
+
+    # === AI ===
+    #claude-code
   ];
   
   programs.firefox.enable = false;
