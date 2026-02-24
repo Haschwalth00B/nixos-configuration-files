@@ -13,34 +13,31 @@
     ./modules/fonts.nix
   ];
 
-  # Home Manager configuration
+  # ── Home Manager ───────────────────────────────────────────────────────────
   home-manager = {
-    useUserPackages = true;
-    useGlobalPkgs = true;
+    useUserPackages     = true;
+    useGlobalPkgs       = true;
     backupFileExtension = "backup";
-    users.haschwalth = import ./home.nix;
+    users.haschwalth    = import ./home.nix;
   };
 
-  # Flakes setup
+  # ── Nix / Flakes ──────────────────────────────────────────────────────────
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Localization
+  # ── Localization ──────────────────────────────────────────────────────────
   time.timeZone = "Asia/Kolkata";
 
-  # Allow unfree packages
+  # ── Unfree packages ────────────────────────────────────────────────────────
   nixpkgs.config.allowUnfree = true;
 
-  # System state version (DO NOT CHANGE)
-  system.stateVersion = "24.11";
-
-  # ZSH (system-wide enablement)
+  # ── ZSH (system-wide) ─────────────────────────────────────────────────────
   programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestions.enable = true;
+    enable                    = true;
+    enableCompletion          = true;
+    autosuggestions.enable    = true;
     syntaxHighlighting.enable = true;
     ohMyZsh = {
-      enable = true;
+      enable  = true;
       plugins = [ "git" "sudo" "docker" ];
     };
     promptInit = ''
@@ -48,5 +45,8 @@
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
     '';
   };
+
+  # ── System state version (DO NOT CHANGE) ──────────────────────────────────
+  system.stateVersion = "24.11";
 }
 

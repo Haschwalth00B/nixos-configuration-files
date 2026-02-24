@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   home.username = "haschwalth";
   home.homeDirectory = "/home/haschwalth";
@@ -93,6 +93,7 @@
       gpl = "git pull";
       gl  = "git log --oneline --graph --decorate";
       gla = "git log --oneline --graph --decorate --all";
+
       gd  = "git diff";
       gds = "git diff --staged";
       gco = "git checkout";
@@ -124,7 +125,7 @@
       fetch = "pfetch";
     };
 
-    initExtra = ''
+    initContent = lib.mkAfter ''
       # Powerlevel10k
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -145,6 +146,7 @@
       export PF_INFO="ascii title os host kernel uptime pkgs memory shell editor wm palette"
       export PF_ASCII="nixos"
       export PF_COL1=4
+
       export PF_COL2=6
       export PF_COL3=7
       export PF_ALIGN="9"
@@ -180,6 +182,7 @@
             *.tar)      tar xf "$1"     ;;
             *.tbz2)     tar xjf "$1"    ;;
             *.tgz)      tar xzf "$1"    ;;
+
             *.zip)      unzip "$1"      ;;
             *.Z)        uncompress "$1" ;;
             *.7z)       7z x "$1"       ;;
@@ -189,6 +192,7 @@
           echo "'$1' is not a valid file"
         fi
       }
+
 
       # Fuzzy file search
       ff() {
@@ -238,6 +242,7 @@
         df -h / /home 2>/dev/null | grep -v tmpfs
         echo ""
         echo "=== Memory Usage ==="
+
         free -h
         echo ""
       }
@@ -263,6 +268,7 @@
       bindkey '^[[F' end-of-line
       bindkey '^[[3~' delete-char
 
+
       # Welcome message
       if [ "$SHLVL" = 1 ]; then
         echo ""
@@ -282,6 +288,7 @@
     shellAliases = {
       nrs = "sudo nixos-rebuild switch";
       nrt = "sudo nixos-rebuild test";
+
       ll  = "eza -lah --icons";
       la  = "eza -A --icons";
       l   = "eza --icons";
@@ -334,6 +341,7 @@
             *.rar)      unrar e $1    ;;
             *.gz)       gunzip $1     ;;
             *.tar)      tar xf $1     ;;
+
             *.tbz2)     tar xjf $1    ;;
             *.tgz)      tar xzf $1    ;;
             *.zip)      unzip $1      ;;
@@ -489,4 +497,5 @@
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "/home/haschwalth/dot_files/nvim";
 }
+
 

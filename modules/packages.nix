@@ -2,69 +2,63 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # === EDITORS ===
+    # ── Editors ───────────────────────────────────────────────────────────────
     neovim
-    
-    # === NETWORK TOOLS ===
+
+    # ── Network tools ─────────────────────────────────────────────────────────
     wget
     curl
     tailscale
-    
-    # === SYSTEM MONITORING ===
+
+    # ── System monitoring ─────────────────────────────────────────────────────
     btop
     htop
     powertop
-    
-    # === FILE SHARING ===
+
+    # ── File sharing ──────────────────────────────────────────────────────────
     samba
-    
-    # === TERMINAL UTILITIES ===
+
+    # ── Terminal utilities ────────────────────────────────────────────────────
     tmux
     pfetch-rs
     ripgrep
     tree
     sl
-    
-    # === DEVELOPMENT TOOLS ===
+
+    # ── Development tools ─────────────────────────────────────────────────────
     git
     gcc
     pciutils
     lshw
     gnumake
-    
-    # === PROGRAMMING LANGUAGES ===
+
+    # ── Programming languages ─────────────────────────────────────────────────
     go
     nodejs_24
     python3
-    python312Packages.pip
-    python313Packages.pip
-    
-    # === PYTHON ENVIRONMENT ===
+
+    # ── Python environment ────────────────────────────────────────────────────
+    # Using uv as the modern Python package/env manager.
+    # conda was removed – it currently fails to build on nixos-unstable
+    # (conda-libmamba-solver missing msgpack/requests/zstandard at runtime).
+    # Use `uv venv` / `uv pip` instead; it's faster and works perfectly here.
     uv
-    conda
-    python312Packages.conda
-    
-    # === CONTAINERIZATION ===
+
+    # ── Containerisation ──────────────────────────────────────────────────────
     docker
     docker-compose
 
-    
-    # === WEB & CONTENT ===
+    # ── Web & content ─────────────────────────────────────────────────────────
     hugo
     code-server
-    
-    # === MEDIA TOOLS ===
+
+    # ── Media tools ───────────────────────────────────────────────────────────
     exiftool
 
-    # === ZSH ===
-    # Nerd Fonts for Powerlevel10k
-    nerd-fonts.fira-code
-    nerd-fonts.jetbrains-mono
-    nerd-fonts.meslo-lg
-
-    # === AI ===
-    #claude-code
+    # ── AI (uncomment when ready) ─────────────────────────────────────────────
+    # claude-code
   ];
-  
+
   programs.firefox.enable = false;
 }
+
