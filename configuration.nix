@@ -1,10 +1,5 @@
 { config, lib, pkgs, ... }:
-
-let
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz";
-in
 {
-
   imports = [
     ./hardware-configuration.nix
     ./modules/boot.nix
@@ -15,8 +10,7 @@ in
     ./modules/power.nix
     ./modules/virtualization.nix
     ./modules/maintenance.nix
-    ./modules/fonts.nix  # <-- Add this line for fonts module
-    (import "${home-manager}/nixos")
+    ./modules/fonts.nix
   ];
 
   # Home Manager configuration
@@ -27,7 +21,7 @@ in
     users.haschwalth = import ./home.nix;
   };
 
-  #flakes setup
+  # Flakes setup
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Localization
@@ -39,24 +33,20 @@ in
   # System state version (DO NOT CHANGE)
   system.stateVersion = "24.11";
 
-  # ZSH
+  # ZSH (system-wide enablement)
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
-
     ohMyZsh = {
       enable = true;
       plugins = [ "git" "sudo" "docker" ];
     };
-
     promptInit = ''
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
     '';
   };
-
-
 }
 
