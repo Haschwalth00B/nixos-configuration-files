@@ -1,64 +1,58 @@
 { config, lib, pkgs, ... }:
-
 {
   environment.systemPackages = with pkgs; [
-    # ── Editors ───────────────────────────────────────────────────────────────
+    # === EDITORS ===
     neovim
-
-    # ── Network tools ─────────────────────────────────────────────────────────
+    # === NETWORK TOOLS ===
     wget
     curl
     tailscale
-
-    # ── System monitoring ─────────────────────────────────────────────────────
+    # === SYSTEM MONITORING ===
     btop
     htop
     powertop
-
-    # ── File sharing ──────────────────────────────────────────────────────────
+    # === FILE SHARING ===
     samba
-
-    # ── Terminal utilities ────────────────────────────────────────────────────
+    # === TERMINAL UTILITIES ===
     tmux
     pfetch-rs
     ripgrep
     tree
     sl
-
-    # ── Development tools ─────────────────────────────────────────────────────
+    # === DEVELOPMENT TOOLS ===
     git
     gcc
     pciutils
     lshw
     gnumake
-
-    # ── Programming languages ─────────────────────────────────────────────────
+    # === PROGRAMMING LANGUAGES ===
     go
     nodejs_24
     python3
-
-    # ── Python environment ────────────────────────────────────────────────────
-    # Using uv as the modern Python package/env manager.
-    # conda was removed – it currently fails to build on nixos-unstable
-    # (conda-libmamba-solver missing msgpack/requests/zstandard at runtime).
-    # Use `uv venv` / `uv pip` instead; it's faster and works perfectly here.
+    python312Packages.pip
+    python313Packages.pip
+    # === PYTHON ENVIRONMENT ===
+    # conda and python312Packages.conda removed — conda-libmamba-solver is
+    # broken in current nixos-unstable. Use uv instead (already included).
     uv
+    # === CONTAINERIZATION ===
 
-    # ── Containerisation ──────────────────────────────────────────────────────
     docker
     docker-compose
-
-    # ── Web & content ─────────────────────────────────────────────────────────
+    # === WEB & CONTENT ===
     hugo
     code-server
-
-    # ── Media tools ───────────────────────────────────────────────────────────
+    # === MEDIA TOOLS ===
     exiftool
+    # === ZSH ===
+    # Nerd Fonts for Powerlevel10k
 
-    # ── AI (uncomment when ready) ─────────────────────────────────────────────
-    # claude-code
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.meslo-lg
+    # === AI ===
+    #claude-code
   ];
-
   programs.firefox.enable = false;
 }
 

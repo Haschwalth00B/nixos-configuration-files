@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 {
   home.username = "haschwalth";
   home.homeDirectory = "/home/haschwalth";
@@ -93,7 +93,6 @@
       gpl = "git pull";
       gl  = "git log --oneline --graph --decorate";
       gla = "git log --oneline --graph --decorate --all";
-
       gd  = "git diff";
       gds = "git diff --staged";
       gco = "git checkout";
@@ -113,8 +112,10 @@
       free = "free -h";
       ps   = "ps aux";
 
+
       # Navigation
       ".."   = "cd ..";
+
       "..."  = "cd ../..";
       "...." = "cd ../../..";
 
@@ -125,7 +126,7 @@
       fetch = "pfetch";
     };
 
-    initContent = lib.mkAfter ''
+    initContent = ''
       # Powerlevel10k
       source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -146,11 +147,11 @@
       export PF_INFO="ascii title os host kernel uptime pkgs memory shell editor wm palette"
       export PF_ASCII="nixos"
       export PF_COL1=4
-
       export PF_COL2=6
       export PF_COL3=7
       export PF_ALIGN="9"
       export PF_SEP=":"
+
 
       # BTW function
       btw() {
@@ -182,8 +183,8 @@
             *.tar)      tar xf "$1"     ;;
             *.tbz2)     tar xjf "$1"    ;;
             *.tgz)      tar xzf "$1"    ;;
-
             *.zip)      unzip "$1"      ;;
+
             *.Z)        uncompress "$1" ;;
             *.7z)       7z x "$1"       ;;
             *)          echo "'$1' cannot be extracted via extract()" ;;
@@ -192,7 +193,6 @@
           echo "'$1' is not a valid file"
         fi
       }
-
 
       # Fuzzy file search
       ff() {
@@ -230,6 +230,7 @@
       # Public IP
       myip() {
         curl -s https://api.ipify.org
+
         echo ""
       }
 
@@ -242,7 +243,6 @@
         df -h / /home 2>/dev/null | grep -v tmpfs
         echo ""
         echo "=== Memory Usage ==="
-
         free -h
         echo ""
       }
@@ -261,17 +261,19 @@
       setopt NOTIFY
       setopt PROMPT_SUBST
 
+
       # Key bindings
       bindkey '^[[A' history-search-backward
       bindkey '^[[B' history-search-forward
       bindkey '^[[H' beginning-of-line
+
       bindkey '^[[F' end-of-line
       bindkey '^[[3~' delete-char
-
 
       # Welcome message
       if [ "$SHLVL" = 1 ]; then
         echo ""
+
         pfetch
         echo ""
       fi
@@ -288,7 +290,6 @@
     shellAliases = {
       nrs = "sudo nixos-rebuild switch";
       nrt = "sudo nixos-rebuild test";
-
       ll  = "eza -lah --icons";
       la  = "eza -A --icons";
       l   = "eza --icons";
@@ -317,6 +318,7 @@
       export PF_ALIGN="9"
       export PF_SEP=":"
 
+
       btw() {
         clear
         echo ""
@@ -341,7 +343,6 @@
             *.rar)      unrar e $1    ;;
             *.gz)       gunzip $1     ;;
             *.tar)      tar xf $1     ;;
-
             *.tbz2)     tar xjf $1    ;;
             *.tgz)      tar xzf $1    ;;
             *.zip)      unzip $1      ;;
@@ -349,6 +350,7 @@
             *.7z)       7z x $1       ;;
             *)          echo "'$1' cannot be extracted" ;;
           esac
+
         else
           echo "'$1' is not a valid file"
         fi
@@ -371,18 +373,18 @@
   # ============================================================================
   programs.git = {
     enable = true;
-    userName = "haschwalth";
-    userEmail = "srivatsapoojary@gmail.com";
 
-    extraConfig = {
+    # userName, userEmail, and extraConfig renamed to settings in home-manager master
+    settings = {
+      user.name  = "haschwalth";
+      user.email = "srivatsapoojary@gmail.com";
+
       init.defaultBranch = "main";
       pull.rebase = false;
       core.editor = "nvim";
       diff.algorithm = "histogram";
-      pager = {
-        branch = false;
-        tag = false;
-      };
+      pager.branch = false;
+      pager.tag    = false;
       alias = {
         st           = "status -sb";
         co           = "checkout";
@@ -393,27 +395,20 @@
         visual       = "log --graph --oneline --decorate --all";
         lg           = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
         contributors = "shortlog --summary --numbered";
+
         amend        = "commit --amend --no-edit";
       };
-      color = {
-        ui = "auto";
-        branch = {
-          current = "yellow reverse";
-          local   = "yellow";
-          remote  = "green";
-        };
-        diff = {
-          meta = "yellow bold";
-          frag = "magenta bold";
-          old  = "red";
-          new  = "green";
-        };
-        status = {
-          added     = "green";
-          changed   = "yellow";
-          untracked = "cyan";
-        };
-      };
+      color.ui                  = "auto";
+      color.branch.current      = "yellow reverse";
+      color.branch.local        = "yellow";
+      color.branch.remote       = "green";
+      color.diff.meta           = "yellow bold";
+      color.diff.frag           = "magenta bold";
+      color.diff.old            = "red";
+      color.diff.new            = "green";
+      color.status.added        = "green";
+      color.status.changed      = "yellow";
+      color.status.untracked    = "cyan";
     };
 
     ignores = [
@@ -497,5 +492,4 @@
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "/home/haschwalth/dot_files/nvim";
 }
-
 
