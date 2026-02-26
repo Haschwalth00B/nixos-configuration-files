@@ -13,6 +13,7 @@
     description = "Run autoaspm.py script at startup";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
+    path = [ pkgs.pciutils pkgs.bash ];
     serviceConfig = {
       ExecStart = "${pkgs.python3}/bin/python3 /home/haschwalth/autoaspm/autoaspm.py";
       Restart = "on-failure";

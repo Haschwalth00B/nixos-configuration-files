@@ -14,10 +14,6 @@
     ncdu          # interactive disk usage browser
   ];
 
-  # ── Hardware sensor daemon ────────────────────────────────────────────────
-  hardware.sensor.hddtemp = {
-    enable = true;
-  };
 
   # ── Netdata — real-time web dashboard (http://localhost:19999) ────────────
   services.netdata = {

@@ -27,8 +27,10 @@
 
   # ── Localization ──────────────────────────────────────────────────────────
   time.timeZone = "Asia/Kolkata";
-  i18n.defaultLocale = "en_IN";
-
+  i18n = {
+    defaultLocale    = "en_US.UTF-8";
+    supportedLocales = [ "en_US.UTF-8/UTF-8" ];
+  };
   # ── Nix ───────────────────────────────────────────────────────────────────
   nixpkgs.config.allowUnfree = true;
 

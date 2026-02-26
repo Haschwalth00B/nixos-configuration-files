@@ -221,6 +221,7 @@ in
   # ============================================================================
   programs.zsh = {
     enable            = true;
+    dotDir	      = "/home/haschwalth";
     enableCompletion  = true;
 
     history = {
