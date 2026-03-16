@@ -84,6 +84,8 @@
     neofetch       # system info (alternative to pfetch)
   ];
 
+  programs.nix-ld.enable = true;
+
   programs.firefox.enable = false;
 }
 
