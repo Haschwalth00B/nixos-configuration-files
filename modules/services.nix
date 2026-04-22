@@ -15,6 +15,13 @@
         "map to guest"   = "Bad User";
         # Improve discovery on modern clients
         "min protocol"   = "SMB2";
+
+
+        # ── Unicode / filename mangling fix ───────────────────────────────
+        "mangled names"  = "no";
+        "unix charset"   = "UTF-8";
+        "vfs objects"    = "catia fruit streams_xattr";
+        "catia:mappings" = "0x22:0xa8,0x2a:0xa4,0x2f:0xf8,0x3a:0xf7,0x3c:0xab,0x3e:0xbb,0x3f:0xbf,0x5c:0xff,0x7c:0xa6";
       };
       homes = {
         comment    = "Home Directories";
@@ -48,22 +55,19 @@
     nssmdns4 = true;
     publish = {
       enable      = true;
-
       addresses   = true;
       workstation = true;
-
     };
   };
 
   # ── Laptop lid in server mode ─────────────────────────────────────────────
-
   services.logind.settings.Login = {
-    HandleLidSwitch            = "ignore";
+
+    HandleLidSwitch              = "ignore";
     HandleLidSwitchExternalPower = "ignore";
-    HandleLidSwitchDocked      = "ignore";
+    HandleLidSwitchDocked        = "ignore";
   };
 
   # ── Cron (handy for scheduled tasks) ─────────────────────────────────────
   services.cron.enable = true;
 }
-
