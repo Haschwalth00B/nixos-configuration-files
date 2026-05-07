@@ -28,7 +28,7 @@
         browseable = "yes";
         writable   = "yes";
         # Restrict to local network only
-        "hosts allow" = "192.168.1.0/24 127.0.0.1";
+        "hosts allow" = "192.168.1.0/24 127.0.0.1 100.64.0.0/10";
       };
     };
   };
